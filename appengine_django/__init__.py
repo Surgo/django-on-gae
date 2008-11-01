@@ -108,6 +108,10 @@ except ImportError, e:
   sys.path = sys.path[0:1] + EXTRA_PATHS + sys.path[1:]
   from google.appengine.api import apiproxy_stub_map
 
+# Django on Windows tries to use unlink, but GAE doesn't have it, so make it a noop
+if os.name == 'nt':
+  os.unlink = lambda: None
+
 # Look for a zipped copy of Django.
 have_django_zip = False
 django_zip_path = os.path.join(PARENT_DIR, 'django.zip')
